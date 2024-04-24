@@ -32,10 +32,10 @@ def http_send():
     while True:
         time.sleep(LIVE_SEND_INTERVAL)
         # 防止中间重启推送0数据
-        try:
-            sender()
-        except Exception as e:
-            print(f"上报数据")
+        # try:
+            # sender()
+        # except Exception as e:
+        #     print(f"上报数据")
 
 
 def send_start():

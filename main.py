@@ -12,8 +12,9 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.ERROR)
     print("记得修改config.py里面的直播地址啊，不然获取不到数据的！")
     # 初始化要做的事情：比如初始化全局变量
-    init_global()
+    # init_global()
     # 推送直播点赞等数据
-    send_start()
+    # send_start()
     # 在config.py配置中修改直播地址: LIVE_ROOM_URL
-    dy_live.parseLiveRoomUrl(LIVE_ROOM_URL)
+    # dy_live.parseLiveRoomUrl(LIVE_ROOM_URL)
+    dy_live.splitAduio()

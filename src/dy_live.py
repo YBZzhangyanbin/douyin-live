@@ -27,6 +27,11 @@ from proto.dy_pb2 import RoomUserSeqMessage
 from proto.dy_pb2 import UpdateFanTicketMessage
 from proto.dy_pb2 import CommonTextMessage
 from proto.dy_pb2 import ProductChangeMessage
+from tqdm import tqdm
+from datetime import datetime
+import os
+from moviepy.editor import VideoFileClip
+import subprocess
 
 # 直播信息全局变量
 liveRoomId = ""
@@ -352,9 +357,10 @@ def parseLiveRoomUrl(url):
     logger.info(f"直播流FLV地址是: {res_stream_flv}")
     print(f"直播流FLV地址是: {res_stream_flv}")
     # 开始获取直播间排行
-    live_rank.interval_rank(liveRoomId)
+    # live_rank.interval_rank(liveRoomId)
     # 创建websocket客户端，并开始监听消息
-    wssServerStart()
+    # wssServerStart()
+    downLoadflv(res_stream_flv)
 
 
 # 十六进制字符串转protobuf格式(用于快手网页websocket调试分析包体结构)
@@ -369,3 +375,29 @@ def hexStrToProtobuf(hexStr):
         output = parser.parse_message(fh, 'message')
     print(output)
     return output
+# 下载推流视频
+def downLoadflv(path):
+    # 发送GET请求下载视频
+    response = requests.get(path, stream=True)
+    # 生成当前时间戳作为文件名
+    timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+    file_path = f'/Users/zhangyanbin/Documents/video/{timestamp}.flv'
+    # 检查响应状态码是否为200（表示成功）
+    if response.status_code == 200:
+        # 打开一个文件并将视频内容写入其中
+        with open(file_path, 'wb') as f:
+            for chunk in response.iter_content(chunk_size=1024):
+                f.write(chunk)
+                print(f'{timestamp}.flv 下载中！')
+            print('视频下载完成！')
+
+    else:
+        print('下载视频时出错：', response.status_code)
+
+# 视频中提取音频
+def splitAduio():
+    command = ['ffmpeg', '-i', "/Users/zhangyanbin/Documents/video/20240424165308.flv", '-vn', '-acodec', 'libmp3lame', '/Users/zhangyanbin/Documents/video/20240424165308.wav']
+    subprocess.run(command)
+
+
+
