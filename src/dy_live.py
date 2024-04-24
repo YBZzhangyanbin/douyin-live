@@ -52,53 +52,65 @@ def onMessage(ws: websocket.WebSocketApp, message: bytes):
     if payloadPackage.needAck:
         sendAck(ws, logId, payloadPackage.internalExt)
     for msg in payloadPackage.messagesList:
+
         # 反对分数消息
         if msg.method == 'WebcastMatchAgainstScoreMessage':
+            print(f"反对分数消息")
             unPackMatchAgainstScoreMessage(msg.payload)
             continue
 
         # 点赞数
         if msg.method == 'WebcastLikeMessage':
+            print(f"点赞数")
             unPackWebcastLikeMessage(msg.payload)
             continue
 
         # 成员进入直播间消息
         if msg.method == 'WebcastMemberMessage':
+            print(f"成员进入直播间消息")
             unPackWebcastMemberMessage(msg.payload)
             continue
 
         # 礼物消息
         if msg.method == 'WebcastGiftMessage':
+            print(f"礼物消息")
+
             unPackWebcastGiftMessage(msg.payload)
             continue
 
         # 聊天消息
         if msg.method == 'WebcastChatMessage':
+            print(f"聊天消息")
             unPackWebcastChatMessage(msg.payload)
             continue
 
         # 联谊会消息
         if msg.method == 'WebcastSocialMessage':
+            print(f"联谊会消息")
             unPackWebcastSocialMessage(msg.payload)
             continue
 
         # 房间用户发送消息
         if msg.method == 'WebcastRoomUserSeqMessage':
+            print(f"房间用户发送消息")
             unPackWebcastRoomUserSeqMessage(msg.payload)
             continue
 
         # 更新粉丝票
         if msg.method == 'WebcastUpdateFanTicketMessage':
+            print(f"更新粉丝票")
             unPackWebcastUpdateFanTicketMessage(msg.payload)
             continue
 
         # 公共文本消息
         if msg.method == 'WebcastCommonTextMessage':
+            print(f"公共文本消息")
             unPackWebcastCommonTextMessage(msg.payload)
             continue
 
         # 商品改变消息
         if msg.method == 'WebcastProductChangeMessage':
+            print(f"商品改变消息")
             WebcastProductChangeMessage(msg.payload)
             continue
         logger.info('[onMessage] [待解析方法' + msg.method + '等待解析～] [房间Id：' + liveRoomId + ']')
@@ -231,7 +243,7 @@ def sendAck(ws, logId, internalExt):
     obj.payloadType = internalExt
     data = obj.SerializeToString()
     ws.send(data, websocket.ABNF.OPCODE_BINARY)
-    logger.info('[sendAck] [🌟发送Ack] [房间Id：' + liveRoomId + '] ====> 房间标题【' + liveRoomTitle + '】')
+    # logger.info('[sendAck] [🌟发送Ack] [房间Id：' + liveRoomId + '] ====> 房间标题【' + liveRoomTitle + '】')
 
 
 def onError(ws, error):
@@ -264,7 +276,7 @@ def ping(ws):
         obj.payloadType = 'hb'
         data = obj.SerializeToString()
         ws.send(data, websocket.ABNF.OPCODE_BINARY)
-        logger.info('[ping] [💗发送ping心跳] [房间Id：' + liveRoomId + '] ====> 房间🏖标题【' + liveRoomTitle + '】')
+        # logger.info('[ping] [💗发送ping心跳] [房间Id：' + liveRoomId + '] ====> 房间🏖标题【' + liveRoomTitle + '】')
         time.sleep(10)
 
 
