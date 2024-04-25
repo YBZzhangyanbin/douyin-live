@@ -3,16 +3,12 @@ import requests
 import re
 from src.utils.logger import logger
 import json
-from datetime import datetime
 import sys
 import time
 import os
 
 
-# 旋转等待符号
 spinner = "|/-\\"
-# 打印下载进度条
-# 获取终端宽度
 def get_terminal_width():
     return 100
 
@@ -93,18 +89,18 @@ if __name__ == '__main__':
     # 发送GET请求下载视频
     response = requests.get(res_stream_flv, stream=True)
     # 生成当前时间戳作为文件名
-    file_path = f'/Users/zhangyanbin/Documents/video/{filename}.flv'
+    file_path = f'{os.getcwd()}/{filename}.flv'
     # 检查响应状态码是否为200（表示成功）
     if response.status_code == 200:
         # 打开一个文件并将视频内容写入其中
         with open(file_path, 'wb') as f:
             for chunk in response.iter_content(chunk_size=1024):
                 spinner_char = spinner[index % len(spinner)]
-                progress = f"\rDownloading {spinner_char}"
+                progress = f"\rDownloading                     {spinner_char}"
                 print(f"{progress}{filename}.flv", end='', flush=True)
                 f.write(chunk)
                 index += 1
-            print('视频下载完成！')
+            print('视频下载完成！开始提取音频')
 
     else:
         print('下载视频时出错：', response.status_code)
