@@ -4,9 +4,11 @@ import time
 import subprocess
 import os
 
+ # pyinstaller -F splitAudio.py   打包
 
 def get_terminal_width():
     return 100
+
 
 if __name__ == '__main__':
     args = sys.argv[1:]
@@ -23,7 +25,5 @@ if __name__ == '__main__':
     else:
         filename = str(int(time.time()))  # 使用当前时间戳作为文件名
     file_path = f'{os.getcwd()}/{filename}.wav'
-    command = ['ffmpeg', '-i', url, '-vn', '-acodec', 'libmp3lame',file_path]
+    command = ['ffmpeg', '-i', url, '-vn', '-acodec', 'libmp3lame', file_path]
     subprocess.run(command)
-
-
