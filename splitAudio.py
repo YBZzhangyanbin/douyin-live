@@ -24,6 +24,7 @@ if __name__ == '__main__':
         filename = args[1]
     else:
         filename = str(int(time.time()))  # 使用当前时间戳作为文件名
-    file_path = f'{os.getcwd()}/{filename}.wav'
+    file_path = f'{os.getcwd()}/{filename}.mp3'
     command = ['ffmpeg', '-i', url, '-vn', '-acodec', 'libmp3lame', file_path]
+    # command = ['ffmpeg', '-i', url, '-vn', '-acodec', 'pcm_s16le', '-ar', '44100', '-ac', '2', file_path]
     subprocess.run(command)
